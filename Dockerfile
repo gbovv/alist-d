@@ -1,6 +1,3 @@
-FROM xhofe/alist:beta as builder
-
-
 FROM ubuntu:22.04
 
 # Set up a new user named "user" with user ID 1000
@@ -16,15 +13,9 @@ ENV HOME=/home/user \
 # Set the working directory to the user's home directory
 WORKDIR $HOME/alist
 
-COPY --chown=user --from=builder /opt/alist/alist $HOME/alist
+COPY --chown=user . $HOME/alist
 
 RUN chmod +x $HOME/alist/alist
-
 # CMD ["bash", "alist", "server"]
-CMD cd $HOME/alist && ./alist server --debug & sleep 5 && mkdir -p data/temp && chmod 777 data/temp && ls data
-
-
+CMD cd $HOME/alist && ./alist server
 EXPOSE 5244
-
-
-
